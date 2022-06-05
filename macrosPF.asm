@@ -2826,4 +2826,125 @@ PressEnter macro
   jne Inicio  
 endm
 
+ObtenerTextoUsuario macro buffer
+LOCAL ObtenerChar, FinOT,cont
+xor si, si
+ObtenerChar:
+getChar
+cmp al, 0dh
+je FinOT
+mov buffer[si],al
+inc si
+jmp ObtenerChar
+FinOT:
+mov al,0h
+mov al,24h
+mov buffer[si],al
+endm
+
+ConvertirString macro buffer
+    LOCAL Dividir,Dividir2,FinCr3,NEGATIVO,FIN2,FIN
+    PUSH si 
+    PUSH cx 
+    PUSH bx 
+    PUSH dx 
+    xor si,si
+    xor cx,cx
+    xor bx,bx
+    xor dx,dx
+    mov dl,0ah
+    test ax,1000000000000000
+    jnz NEGATIVO
+    jmp Dividir2
+
+    NEGATIVO:
+        neg ax
+        mov buffer[si],45
+        inc si
+        jmp Dividir2
+
+    Dividir:
+        xor ah,ah
+    Dividir2:
+        div dl
+        inc cx
+        push ax
+        cmp al,00h
+        je FinCr3
+        jmp Dividir
+    FinCr3:
+        pop ax
+        add ah,30h
+        mov buffer[si],ah
+        inc si
+        loop FinCr3
+        mov ah,24h
+        mov buffer[si],ah
+        inc si
+    FIN:
+        POP dx 
+        POP bx 
+        POP cx 
+        POP si 
+endm
+
+ConvertirAscii macro numero
+    LOCAL INICIO,FIN, negar, SALIR 
+    PUSH bx 
+    PUSH cx 
+    PUSH si 
+
+    xor ax,ax
+    xor bx,bx
+    xor cx,cx
+    mov bx,10
+    xor si,si
+    INICIO:
+        mov cl,numero[si] 
+        cmp cl,48
+        jl FIN
+        cmp cl,57
+        jg FIN
+        inc si
+        sub cl,48
+        mul bx
+        add ax,cx
+        jmp INICIO
+    FIN:
+        CMP negativo, 1
+        JE negar 
+        POP si
+        POP cx 
+        POP bx 
+        JMP SALIR 
+    negar:
+        MOV negativo, 0
+        NEG ax 
+        POP si 
+        POP cx 
+        POP bx 
+
+    SALIR:
+endm
+
+getNumero macro buffer
+    LOCAL INICIO,FIN, numeroNegativo
+    MOV negativo, 0
+    xor si,si
+    INICIO:
+        getChar
+        cmp al,0dh
+        je FIN
+        CMP al,45 
+        je numeroNegativo 
+        mov buffer[si],al
+        inc si
+        jmp INICIO
+
+    numeroNegativo:
+        MOV negativo, 1
+        JMP INICIO 
+    FIN:
+        mov buffer[si],00h
+endm
 ;EDUARDO FIN

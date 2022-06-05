@@ -19,7 +19,7 @@ EncabezadoReporte db "UNIVERSIDAD DE SAN CARLOS DE GUATEMALA",13,10,
                     "PRIMER SEMESTRE 2020",13,10,
                     "OSCAR ALFREDO LLAMAS LEMUS",13,10,
                     "201602625",13,10,13,10
-
+negativo db 0
 RSalto db " ",13,10
 RTabulacion db "        "
 R_TPuntos db "+++++++++++++++ TOP 10 PUNTOS +++++++++++++++",13,10,13,10
@@ -137,19 +137,25 @@ encabezado db "	UNIVERSIDAD DE SAN CARLOS DE GUATEMALA",0ah,0dh,"	FACULTAD DE IN
 				09h,"CIENCIAS Y SISTEMAS",0ah,0dh,"	ARQUITECTURAS DE COMPUTADORES Y ENSAMBLADORES 1",0ah,0dh,
 				09h,"SECCION A",0ah,0dh,"	NOMBRE: OSCAR ALFREDO LLAMAS LEMUS",0ah,0dh,
 				09h,"CARNET: 201602625",0ah,0dh,0ah,0dh,"$"
-menu db "	1) Ingresar",0ah,0dh,"	2) Registrar",0ah,0dh,"	3) Salir",0ah,0dh,"$"
-Usermenu db "	1) Iniciar Juego",0ah,0dh,"	2) Cargar Juego",0ah,0dh,"	3) Salir",0ah,0dh,"$"
+;EDUARDO INIC
+menu db "	F1) Login",0ah,0dh,"	F5) Register",0ah,0dh,"	F9) Exit",0ah,0dh,"$"
+
+Usermenu db "	F2) Play game",0ah,0dh,"    F3) Show to 10 scoreboard",0ah,0dh," F5) Show my top 10 scoreboard",0ah,0dh,"F9) Logout",0ah,0dh,"$"
+;EDUARDO FINA
 Adminmenu db "	1) Top 10 puntos",0ah,0dh,"	2) Top 10 tiempo",0ah,0dh,"	3) Salir",0ah,0dh,"$"
 Tipomenu db "  1) Ordenamiento BubbleSort Ascendente",0ah,0dh,"  2) Ordenamiento BubbleSort Descendente",0ah,0dh,
             "  3) Ordenamiento QuickSort Ascendente",0ah,0dh,"  4) Ordenamiento QuickSort Descendente",0ah,0dh,
             "  5) Ordenamiento ShellSort Ascendente",0ah,0dh,"  6) Ordenamiento ShellSort Descendente",0ah,0dh,
 				"  7) Regresar",0ah,0dh,"$"
 flecha db "	>>","$"
-elegir db "Elija una opcion:","$"
+;EDUARDO INIC
+elegir db "Menu:","$"
+;EDUARDO FINA
 ingreseVelocidad db "Ingrese un valor de velocidad [0,9]: ","$"
 titulo_ingreso db "+++++++++++++++++ INICIAR SESION +++++++++++++++","$"
 titulo_admin db "+++++++++++++++++ BIENVENIDO ADMINISTRADOR +++++++++++++++","$"
 titulo_registro db "+++++++++++++++++ REGISTRAR NUEVO USUARIO +++++++++++++++","$"
+test1 db "+++++++++++++++++ HAY NUMEROS CARNAL +++++++++++++++","$"
 titulo_puntos db "+++++++++++++++++ REPORTE PUNTOS +++++++++++++++","$"
 titulo_tiempo db "+++++++++++++++++ REPORTE TIEMPO +++++++++++++++","$"
 titulo_tipo db "+++++++++++++++++ TIPO DE ORDENAMIENTO +++++++++++++++","$"
@@ -208,7 +214,6 @@ Inicio:
     ;EDUARDO FIN
     print elegir
 	print salto
-
 Imprimir_Menu:
 	print menu
 	getCharSE
@@ -455,7 +460,7 @@ OPCION2: ;REGISTRAR
 	print titulo_registro
 	print salto
 	print ingrese_usuario   
-	ObtenerTexto arregloID
+	ObtenerTextoUsuario arregloID
 	print salto
 	print ingrese_pass
 	ObtenerTexto arregloPASS
@@ -483,7 +488,7 @@ OPCION2: ;REGISTRAR
 	add OffsetUsuario,SIZEOF Usuario
 	print regExitoso
 	getCharSE
-	jmp Inicio        
+	jmp Inicio     
 
 Error_Crear:
 	print salto
